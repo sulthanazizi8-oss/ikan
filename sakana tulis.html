@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Animasi Kanji Sakana - Presisi Final</title>
+    <style>
+        body { 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            background-color: #ffffff; 
+            margin: 0;
+            overflow: hidden;
+        }
+
+        svg { 
+            width: 60vw;
+            max-width: 260px;
+            height: auto;
+        }
+
+        path { 
+            fill: none; 
+            stroke: #000000; 
+            stroke-width: 5; 
+            stroke-linecap: round; 
+            stroke-linejoin: round; 
+        }
+        
+        text { 
+            font-size: 8px; 
+            font-weight: bold; 
+            fill: #000000; 
+            stroke: #ffffff; 
+            stroke-width: 2px; 
+            paint-order: stroke; 
+            opacity: 0; 
+            transition: opacity 0.3s; 
+            font-family: Arial, sans-serif;
+            pointer-events: none;
+        }
+
+        .show-num { 
+            opacity: 1; 
+        }
+    </style>
+</head>
+<body>
+
+    <svg viewBox="0 0 100 100" id="kanji-svg">
+
+        <!-- STROKES -->
+        <g id="strokes">
+            <path id="p1" d="M48,8 Q38,15 28,30" />
+
+            <!-- Presisi: ujung bawah X=54 sama dengan stroke 5 -->
+            <path id="p2" d="M48,15 L66,15 L54,38" />
+
+            <path id="p3" d="M30,38 L34,68" />
+            <path id="p4" d="M30,38 L78,38 L74,68" />
+            <path id="p5" d="M54,38 L54,68" />
+            <path id="p6" d="M32,54 L76,54" />
+            <path id="p7" d="M34,68 L73,68" />
+            <path id="p8" d="M26,78 Q22,88 20,93" />
+            <path id="p9" d="M42,78 Q47,88 49,93" />
+            <path id="p10" d="M60,78 Q65,88 67,93" />
+            <path id="p11" d="M80,78 Q85,88 90,93" />
+        </g>
+
+        <!-- NUMBERS -->
+        <g id="numbers">
+            <text x="36" y="10" id="n1">1</text>
+            <text x="70" y="14" id="n2">2</text>
+            <text x="21" y="47" id="n3">3</text>
+            <text x="33" y="34" id="n4">4</text>
+            <text x="60" y="50" id="n5">5</text>
+            <text x="24" y="54" id="n6">6</text>
+            <text x="26" y="72" id="n7">7</text>
+            <text x="14" y="80" id="n8">8</text>
+            <text x="34" y="80" id="n9">9</text>
+            <text x="50" y="80" id="n10">10</text>
+            <text x="72" y="80" id="n11">11</text>
+        </g>
+
+    </svg>
+
+    <script>
+        const totalStrokes = 11;
+
+        function animateLoop() {
+            for (let i = 1; i <= totalStrokes; i++) {
+                const path = document.getElementById(`p${i}`);
+                const num = document.getElementById(`n${i}`);
+                const length = path.getTotalLength();
+                
+                path.style.transition = 'none';
+                path.style.strokeDasharray = length;
+                path.style.strokeDashoffset = length;
+                num.classList.remove('show-num');
+            }
+
+            let delay = 300; 
+            for (let i = 1; i <= totalStrokes; i++) {
+                setTimeout(() => {
+                    const path = document.getElementById(`p${i}`);
+                    const num = document.getElementById(`n${i}`);
+                    
+                    num.classList.add('show-num'); 
+                    path.style.transition = 'stroke-dashoffset 0.6s ease-in-out';
+                    path.style.strokeDashoffset = '0';
+                }, delay);
+                
+                delay += 850;
+            }
+
+            setTimeout(animateLoop, delay + 2500);
+        }
+
+        window.onload = animateLoop;
+    </script>
+</body>
+</html>
